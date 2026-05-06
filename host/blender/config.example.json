@@ -1,0 +1,8 @@
+{
+  "serial_port": "auto",
+  "baudrate": 115200,
+  "udp_ip": "127.0.0.1",
+  "udp_port": 5005,
+  "stream_env": "stream_to_pc",
+  "calibration_env": "calibration"
+}

@@ -1,0 +1,14 @@
+{
+  "serial_port": "auto",
+  "baudrate": 115200,
+  "ws_host": "127.0.0.1",
+  "ws_port": 8765,
+  "stream_env": "stream_to_pc",
+  "calibration_env": "calibration",
+
+  "auto_start_website": true,
+  "web_dir": "../../web",
+  "web_command": "npm run dev",
+  "web_url": "http://127.0.0.1:5173",
+  "auto_open_browser": true
+}

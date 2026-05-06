@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leader Arm | Digital Twin Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+      <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <h2>Loading Digital Twin</h2>
+        <p class="loader-status">Initializing 3D environment...</p>
+        <div class="loader-progress">
+          <div class="loader-progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main 3D Canvas Container -->
+    <div id="app"></div>
+
+    <!-- Header Bar -->
+    <header class="header-bar">
+      <div class="header-left">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+            <circle cx="16" cy="16" r="6" fill="currentColor"/>
+            <path d="M16 2V8M16 24V30M2 16H8M24 16H30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="header-title">
+          <h1>Leader Arm</h1>
+          <span class="subtitle">Digital Twin Viewer</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="connection-status" id="connection-status">
+          <span class="status-dot"></span>
+          <span class="status-text">Disconnected</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Control Panel -->
+    <aside class="control-panel" id="control-panel">
+      <div class="panel-header">
+        <h3>Controls</h3>
+      </div>
+      
+      <div class="panel-content">
+        <!-- View Controls -->
+        <div class="control-section">
+          <h4>View</h4>
+          <div class="button-group">
+            <button class="btn btn-secondary" id="btn-toggle-grid" title="Toggle grid visibility">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="1" width="14" height="14" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="8" y1="1" x2="8" y2="15" stroke="currentColor" stroke-width="1"/>
+                <line x1="1" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1"/>
+              </svg>
+              Toggle Grid
+            </button>
+          </div>
+        </div>
+
+        <!-- Display Options -->
+        <div class="control-section">
+          <h4>Display</h4>
+          <div class="option-row">
+            <label>Auto Rotate</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-autorotate">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="option-row">
+            <label>Shadows</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-shadows" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Theme -->
+        <div class="control-section">
+          <h4>Theme</h4>
+          <div class="theme-buttons">
+            <button class="theme-btn active" data-theme="dark" title="Dark theme">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M15.5 9.5a6.5 6.5 0 01-7-7 6.5 6.5 0 107 7z" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </button>
+            <button class="theme-btn" data-theme="light" title="Light theme">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <circle cx="9" cy="9" r="4" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.5 3.5l1.4 1.4M13.1 13.1l1.4 1.4M3.5 14.5l1.4-1.4M13.1 4.9l1.4-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <button class="theme-btn" data-theme="blueprint" title="Blueprint theme">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <rect x="2" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M6 6h6M6 9h6M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Joint Angles (for future real-time data) -->
+        <div class="control-section">
+          <h4>Joint Angles</h4>
+          <div class="joint-display">
+            <div class="joint-item">
+              <span class="joint-label">Base</span>
+              <span class="joint-value" id="joint-base">0.0°</span>
+            </div>
+            <div class="joint-item">
+              <span class="joint-label">Shoulder</span>
+              <span class="joint-value" id="joint-shoulder">0.0°</span>
+            </div>
+            <div class="joint-item">
+              <span class="joint-label">Elbow</span>
+              <span class="joint-value" id="joint-elbow">0.0°</span>
+            </div>
+            <div class="joint-item">
+              <span class="joint-label">Wrist</span>
+              <span class="joint-value" id="joint-wrist">0.0°</span>
+            </div>
+            <div class="joint-item">
+              <span class="joint-label">Gripper</span>
+              <span class="joint-value" id="joint-gripper">0.0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+
